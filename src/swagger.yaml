@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: API de Exemplo
+  description: Uma API simples de exemplo
+  version: 1.0.0
+paths:
+  /api/actions:
+   post:
+     summary: Criar uma nova ação sustentável
+     description: Crie uma nova ação sustentável e receba pontos de acordo com a categoria.
+     tags: [Ações Sustentáveis]
+     security:
+       - bearerAuth: []
+     requestBody:
+       description: Dados da ação sustentável
+       required: true
+       content:
+         application/json:
+           schema:
+             type: object
+             required:
+               - title
+               - description
+               - category
+             properties:
+               title:
+                 type: string
+                 description: Título da ação sustentável
+               description:
+                 type: string
+                 description: Descrição detalhada da ação
+               category:
+                 type: string
+                 enum: [Reciclagem, Energia, Água, Mobilidade]
+                 description: Categoria da ação
+     responses:
+       201:
+         description: Ação sustentável criada com sucesso
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/SustainableAction'
+       400:
+         description: Erro ao criar a ação sustentável
+       500:
+         description: Erro interno do servidor
+components:
+   schemas:
+     SustainableAction:
+       type: object
+       required:
+         - title
+         - description
+         - category
+         - points
+         - userId
+       properties:
+         title:
+           type: string
+         description:
+           type: string
+         category:
+           type: string
+         points:
+           type: integer
+         userId:
+           type: string
+         createdAt:
+           type: string
+           format: date-time
